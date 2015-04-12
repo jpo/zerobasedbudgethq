@@ -1,0 +1,16 @@
+.sidebar.sidebar-right
+  .inner
+    .block
+      #ad-sidebar.text-center
+        != partial('ad_sidebar')
+    .block
+      h4.title-divider: span Tags
+      .tag-cloud
+        for tag, slug in public.tags._data
+          span: a(href="/tags/#{slug}")= tag.title
+          = ' '
+    .block
+      h4.title-divider: span Recent Articles
+      ul.big-list.tags
+        for post, slug in public.posts._data
+          li: a(href="/posts/#{slug}")= post.title

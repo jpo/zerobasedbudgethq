@@ -1,0 +1,36 @@
+!= partial('_shared/header')
+
+#content: .container
+    != partial('_shared/ad_responsive')
+    .row-fluid
+      h1.title-divider
+        span Budget <span class="de-em">Templates</span>
+        small!= partial('_shared/ad_links')
+
+    ul#quicksand.thumbnails.block.customers
+      li.span4.type-web
+        a(href="/downloads/simple-monthly-budget.xls")
+          span.inner-wrapper
+            span.img-wrapper: img(src="/img/excel.png", alt="Excel")
+            span.title Simple Monthly Budget
+            span.description.
+              A simple Microsoft Excel budget template to be reused every month. It includes an overview and sections
+              for each major category.
+        li.span4.type-web
+          a(href="/downloads/advanced-yearly-budget.xlsx")
+            span.inner-wrapper
+              span.img-wrapper: img(src="/img/excel.png", alt="Excel")
+              span.title Advanced Yearly Budget
+              span.description.
+                An advanced Microsoft Excel budget template to be reused every year. It includes an overview tab and a
+                tab for each month.
+        li.span4.type-web
+          a(href="/downloads/home-mortgage-calculator.xlsx")
+            span.inner-wrapper
+              span.img-wrapper: img(src="/img/excel.png", alt="Excel")
+              span.title Home Mortgage Calculator
+              span.description.
+                A fixed-rate home mortgage calculation spreadsheet. Calculates Total Payments, Total Interest, and
+                Payment Schedule.
+
+!= partial('_shared/footer')

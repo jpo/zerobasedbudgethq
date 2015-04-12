@@ -1,0 +1,39 @@
+- function excerpt(content) {
+    - if(content.indexOf("<!-- more -->") == -1) return content;
+    - else return content.split("<!-- more -->")[0];
+- }
+
+!= partial('header')
+
+#content: .container
+  != partial('ad_responsive')
+  .row-fluid
+    h1.title-divider
+      span!= title
+      small Budgeting tips, tricks, & inspiration
+  .row
+    .span9.blog-roll.blog-list
+      for post, slug in public.posts._data
+        if current.path.indexOf('tags') < 0 || post.tags.indexOf(current.source) > -1
+          .media.row-fluid
+            .span1.hidden-phone
+              .date-wrapper
+                span.date-m= post.date.split(' ')[0]
+                span.date-d= post.date.split(' ')[1]
+            .span11
+              .media-body
+                .tags
+                  for tag in post.tags
+                    a(href="/tags/#{tag}")= tag
+                    = ' '
+                h4.title.media-heading
+                  a(href="/posts/#{slug}")= post.title
+                ul.inline.meta.muted.visible-phone
+                  li: i.icon-calendar: = 'YYYY-MM-DD'
+                != excerpt(partial("../posts/" + slug))
+                ul.inline.links
+                  li: a.btn.btn-mini(href="/posts/#{slug}"): i.icon-circle-arrow-right: = ' read more'
+    .span3
+      != partial('sidebar')
+
+!= partial('footer')

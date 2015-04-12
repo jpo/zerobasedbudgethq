@@ -1,0 +1,36 @@
+{
+    "index": {
+        "layout": false
+    },
+    "about": {
+        "layout": false,
+        "title": "About Us",
+        "description": "Our mission is to provide FREE, helpful information about zero based budgets."
+    },
+    "articles": {
+        "layout": "_shared/posts",
+        "title": "Articles",
+        "description": "Helpful articles about budgeting tips, tricks, &amp; inspiration."
+    },
+    "calculators": {
+        "layout": false,
+        "title": "Calculators",
+        "description": "Simple tools to help you with your budget."
+    },
+    "mortgage-calculator": {
+        "layout": false,
+        "title": "Mortgage Calculator",
+        "description": "A simple calculator that estimates your monthly mortgage payment, interest and payment schedule."
+    },
+    "templates": {
+        "layout": false,
+        "title": "Budget Templates",
+        "description": "Download free budget templates. Try our simple or advanced budgets or our home mortgage calculator."
+    },
+    "sitemap": {
+        "layout": false
+    },
+    "rss": {
+        "layout": false
+    }
+}

@@ -1,0 +1,46 @@
+doctype
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(name="description", content="#{description}")
+        meta(name="author", content="#{author}")
+        meta(name="google-site-verification", content="7s3-pwGrG4l_A5Fctkl7PvcN0l_YrYgaKj57hxiv8FQ")
+        title #{title} - Zero Based Budget HQ
+
+        //if lt IE 9
+          script(type="text/javascript", src="/assets/ie.js")
+
+        link(rel="alternate", type="application/rss+xml", title="All - Zero Based Budget HQ", href="/rss.xml")
+        link(rel="shortcut icon", href="/img/icons/favicon.ico")
+        link(rel="stylesheet", type="text/css", href="/assets/bundle.css")
+        link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Rambla|Calligraffitti', rel='stylesheet', type='text/css')
+
+    body.page.page-blog
+        #navigation.wrapper
+            .navbar.navbar-static-top
+                .header
+                    .header-inner.container
+                        .row-fluid
+                            .span10
+                                a.brand(href="/" title="Home") <span>Zero</span> Based <span>Budget</span> HQ
+                                .slogan Free, simple budget templates.
+                            .span2
+                                .social-media.pull-right
+                                    a(href="http://twitter.com/zerobasedbudget"): i.icon-twitter
+                                    = ' '
+                                    a(href="/rss.xml"): i.icon-rss
+                .container
+                    .navbar-inner
+                        a.btn.btn-navbar.pull-left(data-toggle="collapse", data-target=".nav-collapse")
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        div.nav-collapse.collapse
+                            ul#main-menu.nav
+                                li.home-link: a(href="/"): i.icon-home.hidden-phone: span.visible-phone
+                                li: a.menu-item(href="/articles") Articles
+                                li: a.menu-item(href="/templates") Budget Templates
+                                li: a.menu-item(href="/calculators") Calculators
+                                li: a.menu-item(href="/about") About

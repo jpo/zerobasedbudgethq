@@ -1,0 +1,20 @@
+!= partial('_shared/header')
+
+#content: .container
+    != partial('_shared/ad_responsive')
+    .row-fluid
+        h1.title-divider
+            span Calculators
+            small!= partial('_shared/ad_links')
+
+    ul#quicksand.thumbnails.block.customers
+        li.span4.type-web
+            a(href="/mortgage-calculator")
+                span.inner-wrapper
+                    span.img-wrapper: img(src="/img/html.png", alt="Excel")
+                    span.title Mortgage Calculator
+                    span.description.
+                        A simple, web-based calculator to estimate your monthly mortgage payment, including 
+                        interest and payment schedule.
+
+!= partial('_shared/footer')

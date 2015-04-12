@@ -1,0 +1,24 @@
+!= partial('../_shared/header')
+
+#content: .container
+  != partial('../_shared/ad_responsive')
+  .row-fluid
+    h2.title-divider
+      span Article
+      small: a(href="/articles") <i class="icon-arrow-left"></i> Back to All Articles
+  .row-fluid
+    .span9
+      .blog-post
+        .tags
+          for tag in tags
+            a.tag(href="/tags/#{tag}")= tag
+            = ' '
+        h1.title.media-heading= title
+        ul.inline.meta.mute
+          li: i.icon-calendar
+          = date
+        != yield
+    .span3
+      != partial('../_shared/sidebar')
+
+!= partial('../_shared/footer')

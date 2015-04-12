@@ -1,0 +1,301 @@
+!= partial('_shared/header')
+
+script(type="text/javascript").
+    function clearOutput() {
+        var output = document.getElementById("output");
+        while (output.firstChild)
+            output.removeChild(output.firstChild);
+    }
+
+    function cancelEvent(event) {
+        if (event.preventDefault)
+            event.preventDefault();
+        else
+            event.returnValue = false;
+    }
+
+    // Write a string in red to signify an error.
+    function errorln(str) {
+        var output = document.getElementById("output");
+        var txt = document.createTextNode(str);
+        var newline = document.createElement("br");
+        var span = document.createElement("span");
+        // setAttribute("class" ...) does not work in IE.
+        span.className = "error";
+        span.appendChild(txt);
+        span.appendChild(newline);
+        output.appendChild(span);
+    }
+
+    // Format floating point number in fixed-point notation.
+    function fixedfmt(num, decimals) {
+        // Number.toFixed is a Javascript 1.5 feature,
+        // so we need to test for it here.
+        return num.toFixed ? num.toFixed(decimals) : num;
+    }
+
+    function fmtmoney(num) {
+        /*
+        if (Math.abs(num) < 0.005)
+            num = 0;
+        return "$" + fixedfmt(num, 2);
+        */
+        var n = num,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+
+        return '$' + s +
+                (j ? i.substr(0, j) + t : "") +
+                i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) +
+                (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    }
+
+    function fmtpct(num) {
+        return fixedfmt(num * 100, 2) + "%";
+    }
+
+    function flushright(s, width) {
+        var str = s.toString();
+        var pad = width - str.length;
+        for (var i = 0; i < pad; ++i)
+            str = " " + str;
+        return str;
+    }
+
+    // Get numbers from the input fields.
+    function getInput() {
+        var field;
+        var obj = {};
+
+        field = document.getElementById("principal");
+        obj.principal = parseFloat(field.value);
+        if (isNaN(obj.principal) || obj.principal <= 0) {
+            errorln("Invalid loan amount '" + field.value + "'. Need a positive number.");
+            return false;
+        }
+
+        field = document.getElementById("amortperiod");
+        obj.amortperiod = parseFloat(field.value);
+        if (isNaN(obj.amortperiod) || obj.amortperiod <= 0) {
+            errorln("Invalid term length '" + field.value + "'. Need a positive number.");
+            return false;
+        }
+
+        field = document.getElementById("interest");
+        obj.interest = parseFloat(field.value) / 100;
+        if (isNaN(obj.interest) || obj.interest <= 0) {
+            errorln("Invalid interest rate '" + field.value + "'. Need a positive number.");
+            return false;
+        }
+
+        return obj;
+    }
+
+    function main() {
+        clearOutput();
+        cancelEvent(event);
+
+        var input = getInput();
+
+        if (!input)
+            return false;
+
+        var intrate = input.interest / 12,
+            numpayments = input.amortperiod * 12,
+            x = Math.pow(1 + intrate, numpayments),
+            payments = intrate * input.principal * x / (x - 1);
+
+        var monthlyPayment = document.getElementById('monthlyPayment'),
+            totalPayments = document.getElementById('totalPayments'),
+            interestCost  = document.getElementById('interestCost');
+
+        monthlyPayment.innerText = fmtmoney(payments);
+        totalPayments.innerText = fmtmoney(payments * numpayments);
+        interestCost.innerText = fmtmoney(payments * numpayments - input.principal);
+
+        var balance = input.principal,
+            sumint = 0,
+            sumprin = 0,
+            sumpay = 0;
+
+        var output = document.getElementById('output'),
+            thead = document.createElement('thead'),
+            tbody = document.createElement('tbody'),
+            tr = document.createElement('tr'),
+            th = null,
+            td = null;
+
+        th = document.createElement('th');
+        th.innerText = 'Period';
+        tr.appendChild(th);
+        
+        th = document.createElement('th');
+        th.innerText = 'Payment';
+        tr.appendChild(th);
+
+        th = document.createElement('th');
+        th.innerText = 'Interest';
+        tr.appendChild(th);
+
+        th = document.createElement('th');
+        th.innerText = 'Principal';
+        tr.appendChild(th);
+
+        th = document.createElement('th');
+        th.innerText = 'Total Payments';
+        tr.appendChild(th);
+        
+        th = document.createElement('th');
+        th.innerText = 'Total Interest';
+        tr.appendChild(th);
+
+        th = document.createElement('th');
+        th.innerText = 'Total Principal';
+        tr.appendChild(th);
+
+        th = document.createElement('th');
+        th.innerText = 'Balance';
+        tr.appendChild(th);
+
+        thead.appendChild(tr);
+        output.appendChild(thead);
+
+        for (var i = 1; i <= numpayments; ++i) {
+            sumpay += payments;
+
+            var thisint = balance * intrate;
+            sumint += thisint;
+
+            var thisprin = payments - thisint;
+            sumprin += thisprin;
+            balance -= thisprin;
+
+            tr = document.createElement('tr');
+
+            td = document.createElement('td');
+            td.innerText = i;
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(payments);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(thisint);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(thisprin);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(sumpay);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(sumint);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(sumprin);
+            tr.appendChild(td);
+
+            td = document.createElement('td');
+            td.innerText = fmtmoney(balance);
+            tr.appendChild(td);
+
+            tbody.appendChild(tr);
+        }
+
+        output.appendChild(tbody);
+    }
+
+#content: .container
+    != partial('_shared/ad_responsive')
+
+    h1.title-divider
+        span Mortgage <span class="de-em">Calculator</span>
+        small!= partial('_shared/ad_links')
+
+    p.lead(style="margin-bottom: 30px").
+        Use this calculator to estimate your monthly mortgage payment, including interest and payment
+        schedule. Simply enter the price of the loan amount, your term length, and interest rate to
+        calculate your payment breakdown, schedule, and more.
+
+    .row-fluid
+        .span7
+            h4(style="margin-bottom: 30px;") Enter Your Loan Information
+            form.form-horizontal
+                .control-group
+                    label.control-label(for="principal") Loan Amount
+                    .controls
+                        .input-prepend
+                            span.add-on $
+                            input(type="text", name="principal", id="principal", value="125000")
+                .control-group
+                    label.control-label(for="amortperiod") Term Length
+                    .controls
+                        .input-append
+                            input(type="text", name="amortperiod", id="amortperiod", value="30")
+                            span.add-on yrs
+                .control-group
+                    label.control-label(for="interest") Term Length
+                    .controls
+                        .input-append
+                            input(type="text", name="interest", id="interest", value="6.250")
+                            span.add-on %
+                .control-group
+                    .controls
+                        input.btn.btn-success(type="submit", value="Calculate", onclick="main(); return false;")
+
+        .span5
+            .row(style="margin-bottom: 15px")
+                .span12
+                    h4 Estimated Mortgage Results
+            .row(style="margin-bottom: 15px")
+                .span12
+                    span#monthlyPayment(style="font-size: 200%; font-weight: bold;") $0.00
+                    &nbsp;&nbsp;
+                    span(style="line-height: 200%") Estimated Monthly Payments
+            .row(style="margin-bottom: 15px")
+                .span12
+                    span#totalPayments(style="font-size: 200%; font-weight: bold;") $0.00
+                    &nbsp;&nbsp;
+                    span(style="line-height: 200%") Estimated Total Payments
+            .row(style="margin-bottom: 15px")
+                .span12
+                    span#interestCost(style="font-size: 200%; font-weight: bold;") $0.00
+                    &nbsp;&nbsp;
+                    span(style="line-height: 200%") Estimated Total Interest
+
+    .row-fluid
+        .span12
+            hr
+            h3#outputTitle Estimated Payment Schedule
+            table#output.table.table-striped
+                thead
+                    tr
+                        td Peroid
+                        td Payment
+                        td Interest
+                        td Principal
+                        td Total Payments
+                        td Total Interest
+                        td Total Principal
+                        td Balance
+                tbody
+                    tr
+                        td 0
+                        td $0.00
+                        td $0.00
+                        td $0.00
+                        td $0.00
+                        td $0.00
+                        td $0.00
+                        td $0.00
+                        
+!= partial('_shared/footer')

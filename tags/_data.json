@@ -1,0 +1,27 @@
+{
+    "Behavior": {
+        "layout": "../_shared/posts",
+        "title": "Behavior",
+        "description": "Zero based budgeting articles tagged as Behavior."
+    },
+    "Budgeting": {
+        "layout": "../_shared/posts",
+        "title": "Budgeting",
+        "description": "Zero based budgeting articles tagged as Budgeting."
+    },
+    "How-To": {
+        "layout": "../_shared/posts",
+        "title": "How To",
+        "description": "Zero based budgeting articles tagged as How To."
+    },
+    "Income": {
+        "layout": "../_shared/posts",
+        "title": "Income",
+        "description": "Zero based budgeting articles tagged as Income."
+    },
+    "Tools": {
+        "layout": "../_shared/posts",
+        "title": "Tools",
+        "description": "Zero based budgeting articles tagged as Tools."
+    }
+}
